@@ -131,7 +131,7 @@
 
     remove(Workday_io_512)
 
-# 3.3 save the result as space delimited files
+# 3.3 save the result as csv files
 
-    write_delim(x = result, delim = " ",
-                file = paste("result_", yy, ".txt", sep = ""))
+    write_delim(x = result, delim = ",", 
+                file = paste("result_", yy, ".csv", sep = ""))
