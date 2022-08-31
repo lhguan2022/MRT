@@ -11,7 +11,8 @@ library(tidyverse)
 # 1. the csv's
 #---------------------------------------
 
-# 1.1 load the data
+# 1.1 load the data one month at a time
+#     and combine them into a big data frame
 
 yy <- "2017"  # change this parameter
 mm <- c("01", "02", "03", "04", "05", "06",
@@ -45,7 +46,7 @@ Workday <- df %>%
     filter(!Hour %in% c("02", "03", "04"))
 remove(df)
 
-# 2.3 aggregate the data by in-stations and out-stations
+# 2.3 aggregate the data by "in" and "out"
 
 Workday_i <- Workday %>% 
     group_by(Date, Hour, In) %>% 
@@ -65,7 +66,7 @@ Workday_io <- tibble(Date = Workday_i$Date,
 
 remove(list = c("Workday_i", "Workday_o"))
 
-# 2.4 aggregate again
+# 2.4 taking average over the whole year
 
 Workday_io_m <- Workday_io %>%
     group_by(Hour, Stations) %>%
@@ -73,7 +74,7 @@ Workday_io_m <- Workday_io %>%
 
 remove(Workday_io)
 
-# 2.5 plot the result
+# 2.5 plot the result and save those plots in a folder
 
 timePlot <- function(loc){
     temp_io <- Workday_io_m %>% filter(Stations == loc)
@@ -105,10 +106,18 @@ for(i in 1:length(stations)){
 # 3. data transformation
 #---------------------------------------
 
+# 3.1 we focus on the those travel from home to work
+#     thus we choose those data before noon
+
 Workday_io_512 <- Workday_io_m %>%
     filter(Hour %in% c("05", "06", "07", "08", "09", "10", "11", "12"))
 
 remove(Workday_io_m)
+
+# 3.2 compute the there indexes for each station
+#     index 1: sum of "in" before noon
+#     index 2: ratio of the max of "in" and "out" before noon
+#     index 3: ratio of the sum of "in" and "out" before noon
 
 result <- Workday_io_512 %>%
     group_by(Stations) %>%
@@ -122,6 +131,8 @@ result <- Workday_io_512 %>%
            index3 = Value_i_mean_index3)
 
 remove(Workday_io_512)
+
+# 3.3 save the result as space delimited files
 
 write_delim(x = result, delim = " ",
             file = paste("result_", yy, ".txt", sep = ""))
