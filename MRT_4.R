@@ -117,17 +117,20 @@
 #     index 1: sum of "in" before noon
 #     index 2: ratio of the max of "in" and "out" before noon
 #     index 3: ratio of the sum of "in" and "out" before noon
+#     index 4: percentage of "in" in the total traffic volume before noon 
 
     result <- Workday_io_512 %>%
         group_by(Stations) %>%
         summarise_at(c("Value_i_mean", "Value_o_mean"),
                      list(index1 =~ sum(Value_i_mean),
                           index2 =~ max(Value_i_mean)/max(Value_o_mean),
-                          index3 =~ sum(Value_i_mean)/sum(Value_o_mean))) %>%
+                          index3 =~ sum(Value_i_mean)/sum(Value_o_mean),
+                          index4 =~ sum(Value_i_mean)/(sum(Value_i_mean)+sum(Value_o_mean)))) %>%
         select(Stations, 
                index1 = Value_i_mean_index1,
                index2 = Value_i_mean_index2,
-               index3 = Value_i_mean_index3)
+               index3 = Value_i_mean_index3,
+               index4 = Value_i_mean_index4)
 
     remove(Workday_io_512)
 
