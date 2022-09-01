@@ -54,7 +54,9 @@ Workday <- df %>%
     filter(!Hour %in% c("02", "03", "04"))
 remove(df)
 
-# 2.3 aggregate the data by in-stations and out-stations
+# 2.3 aggregate the data
+#     sum up the values
+#     group by in-stations and out-stations respectively
 
 Workday_i <- Workday %>% 
     group_by(Date, Hour, In) %>% 
@@ -75,6 +77,7 @@ Workday_io <- tibble(Date = Workday_i$Date,
 remove(list = c("Workday_i", "Workday_o"))
 
 # 2.4 aggregate again
+#     taking average over the whole year
 
 Workday_io_m <- Workday_io %>%
     group_by(Hour, Stations) %>%
@@ -83,6 +86,7 @@ Workday_io_m <- Workday_io %>%
 remove(Workday_io)
 
 # 2.5 plot the result
+#     and save them as png files
 
 timePlot <- function(loc){
     temp_io <- Workday_io_m %>% filter(Stations == loc)
