@@ -3,8 +3,8 @@
 - 註：2021年以前之資料中只有108個捷運站，自2021年增設環狀線後，捷運站數量增加為119個
 
 ## 檔案內容
-1. 檔案 `MRT_data_preprocess.R` 將原始資料轉換為 `result_2017.csv` $\cdots$ `result_2022.csv`
-2. 檔案 `MRT_index.R` 將 `result_2017.csv` $\cdots$ `result_2022.csv` 轉換為 `index_2017.csv` $\cdots$ `index_2022.csv`
+- 檔案 `MRT_data_preprocess.R` 將原始資料轉換為 `result_2017.csv` $\cdots$ `result_2022.csv`
+- 檔案 `MRT_index.R` 將 `result_2017.csv` $\cdots$ `result_2022.csv` 轉換為 `index_2017.csv` $\cdots$ `index_2022.csv`
 
 ## 指標計算
 對於單一捷運站，我們有如下表格
